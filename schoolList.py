@@ -34,7 +34,7 @@ def main(file_path, column_name, output_file_path, keywords, splitter):
 
     school_counts.to_csv(output_file_path, index=False)
 
-    print("CSV was written.")
+    print("CSV was written")
 
 if __name__ == "__main__":
     input_file = sys.argv[0]

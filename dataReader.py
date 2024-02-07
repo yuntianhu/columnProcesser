@@ -6,6 +6,15 @@ import os
 import csv
 from firstLayerProcessor import firstLevelProcessor
 from secondLevelProcessor import secondLevelProcessor
+import pandas as pd
+import requests
+import json
+import sys
+import os
+import csv
+from firstLayerProcessor import firstLevelProcessor
+from secondLevelProcessor import secondLevelProcessor
+from arrayProcessor import arrayProcessor
 
 outPutcolumnName=[]
 columnName=""
@@ -16,6 +25,8 @@ outputFile =""
 rateOfSimlarity =0.0
 roughList=[]
 fineList = []
+
+
 for a in range(len(sys.argv)):
 	if sys.argv[a] == "-s":
 		separator.append(sys.argv[a+1])
@@ -38,9 +49,8 @@ roughList=firstLevelProcessor(separator[0], inputFile, columnName, keywords)
 newList = []
 for a in range(1,len(separator)):
 	if a < len(separator)-1:
-	    for row in roughList:
-		    newRow = row.split(separator[a])
-		    newList.append(newRow)
+	    newList = roughList
+	    roughList=arrayProcessor(a,newList)
 	else:
 	    fineList = secondLevelProcessor(roughList, rateOfSimlarity, separator[a])
 
@@ -51,3 +61,4 @@ outFile = pd.DataFrame(fineList, columns=[outPutcolumnName[0],outPutcolumnName[1
 
 outFile.to_csv(outPutFilePath, index=False)
 
+os.system('echo "Your file is ready :) "')

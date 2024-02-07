@@ -11,17 +11,15 @@ schoolList = []
 def secondLevelProcessor(newList, similarity, separator):
 
     newList=newList
+    addressLIst = ["Way","Street","Avenue","Station","Park"]
 
     for oldWords in newList:
         words = oldWords[0]
-        print(words)
         key = oldWords[1]
-        print(key)
         word = words.split(separator)
         print(word)
         for subword in word:
-            if key in subword and "Way" not in subword and "Street" not in subword and "Avenue" not in subword and "Station" not in subword and len(subword)>len(key):
-                print("in the third loop")
+            if key in subword and addressFilter(addressLIst,subword) and stringCleaner(subword) != stringCleaner(key):
                 newSubword = stringCleaner(subword)
                 count =0
                 found = False
@@ -41,3 +39,15 @@ def stringCleaner (word):
      word = word.replace(" - ", " ").replace("at", " ").replace(
                         ".", " ").replace(":", " ").replace("/", " ").replace("\\", " ").lower().strip()
      return word
+
+
+
+def addressFilter (addressLIst, word):
+    for a in addressLIst:
+        if a in word:
+             checkAddress = False
+             break
+        else:
+            checkAddress = True
+
+    return checkAddress
